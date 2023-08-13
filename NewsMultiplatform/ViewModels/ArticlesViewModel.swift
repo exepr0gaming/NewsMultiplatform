@@ -21,10 +21,11 @@ struct FetchTaskToken: Equatable {
 @MainActor
 class ArticleNewsViewModel: ObservableObject {
     
-    @Published var phase = DataFetchPhase<[Article]>.empty
+    @Published var phase: DataFetchPhase<[Article]> = .empty
     @Published var fetchTaskToken: FetchTaskToken
     private let newsAPI = NewsAPI.shared
     
+  // интересно, init articles, selectedCategory without @Published
     init(articles: [Article]? = nil, selectedCategory: Category = .general) {
         if let articles = articles {
             self.phase = .success(articles)
@@ -35,17 +36,17 @@ class ArticleNewsViewModel: ObservableObject {
     }
     
     func loadArticles() async {
-      phase = .success(Article.previewData)
-//        if Task.isCancelled { return }
-//        phase = .empty
-//        do {
-//            let articles = try await newsAPI.fetch(from: fetchTaskToken.category)
-//            if Task.isCancelled { return }
-//            phase = .success(articles)
-//        } catch {
-//            if Task.isCancelled { return }
-//            print(error.localizedDescription)
-//            phase = .failure(error)
-//        }
+     // phase = .success(Article.previewData)
+        if Task.isCancelled { return }
+        phase = .empty
+        do {
+            let articles = try await newsAPI.fetch(from: fetchTaskToken.category)
+            if Task.isCancelled { return }
+            phase = .success(articles)
+        } catch {
+            if Task.isCancelled { return }
+            print(error.localizedDescription)
+            phase = .failure(error)
+        }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  MainView.swift
 //  NewsMultiplatform
 //
 //  Created by Andrew Kurdin on 09.08.2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct MainView: View {
     var body: some View {
         TabView {
          NewsTabView()
@@ -31,6 +31,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        MainView()
     }
 }

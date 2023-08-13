@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SearchTabView: View {
   
-  @StateObject var searchVM = ArticleSearchViewModel()
+  @StateObject var searchVM = ArticleSearchViewModel.shared
   
     var body: some View {
       NavigationView {
@@ -46,8 +46,12 @@ struct SearchTabView: View {
     case .empty:
       if !searchVM.searchQuery.isEmpty {
         ProgressView()
+      } else if !searchVM.history.isEmpty {
+        SearchHistoryListView(searchVM: searchVM) { newValue in
+          searchVM.searchQuery = newValue
+        }
       } else {
-        EmptyPlaceholderView(text: "Type your query to search from NewsAPI", image: Image(systemName: "magnifyingglass"))
+        EmptyPlaceholderView(text: "Type your query to search from News API", image: Image(systemName: "magnifyingglass"))
       }
     case .success(let articles) where articles.isEmpty:
       EmptyPlaceholderView(text: "No search results found", image: Image(systemName: "magnifyingglass"))
@@ -72,6 +76,11 @@ struct SearchTabView: View {
   }
   
   private func search() {
+    let searchQuery = searchVM.searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+    if !searchQuery.isEmpty {
+      searchVM.addHistory(searchQuery)
+    }
+    
     Task {
       await searchVM.searchArticle()
     }
@@ -80,7 +89,7 @@ struct SearchTabView: View {
 
 struct SearchTabView_Previews: PreviewProvider {
   
-  @StateObject static var searchVM = ArticleSearchViewModel()
+  @StateObject static var searchVM = ArticleSearchViewModel.shared
     static var previews: some View {
         SearchTabView()
         .environmentObject(searchVM)
