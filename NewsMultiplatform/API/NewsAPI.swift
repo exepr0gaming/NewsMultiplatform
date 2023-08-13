@@ -21,7 +21,14 @@ struct NewsAPI {
   }()
   
   func fetch(from category: Category) async throws -> [Article] {
-    let url = generateNewsURL(from: category)
+   try await fetchArticles(from: generateNewsURL(from: category))
+  }
+  
+  func search(for query: String) async throws -> [Article] {
+    try await fetchArticles(from: generateSearchURL(from: query))
+  }
+  
+  private func fetchArticles(from url: URL) async throws -> [Article] {
     let (data, response) = try await session.data(from: url)
    
     guard let response = response as? HTTPURLResponse else {
@@ -33,9 +40,8 @@ struct NewsAPI {
     case (200...299), (400...499):
       print("@@@ response.statusCode=\(response.statusCode)")
       let apiResponse = try jsonDecoder.decode(NewsAPIResponse.self, from: data)
-      print("apiResponse=\(apiResponse)")
       if apiResponse.status == "ok" { // default from NewsAPI
-        print("\(apiResponse.articles)")
+       // print("\(apiResponse.articles)")
         return apiResponse.articles ?? []
       } else {
         print("@@@ ERROR response.statusCode=\(response.statusCode)")
@@ -49,6 +55,15 @@ struct NewsAPI {
   
   private func generateError(code: Int = 1, description: String) -> Error {
     NSError(domain: "NewsAPI", code: code, userInfo: [NSLocalizedDescriptionKey: description])
+  }
+  
+  private func generateSearchURL(from query: String) -> URL {
+    let percentEncodedString = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? query
+    let url = "https://newsapi.org/v2/everything?"
+    + "apiKey=\(apiKey)"
+    + "&language=en"
+    + "&q=\(percentEncodedString)"
+    return URL(string: url)!
   }
   
   private func generateNewsURL(from category: Category) -> URL {
