@@ -8,29 +8,24 @@
 import SwiftUI
 
 struct MainView: View {
-    var body: some View {
-        TabView {
-         NewsTabView()
-            .tabItem {
-              Label("News", systemImage: "newspaper")
-            }
-          
-          SearchTabView()
-            .tabItem {
-              Label("Search", systemImage: "magnifyingglass")
-            }
-          
-          BookmarkTabView()
-            .tabItem {
-              Label("Saved", systemImage: "bookmark")
-            }
-        }
-        .padding()
+  @AppStorage("selectedMenuItemId") private var selectedMenuItemId: MenuItem.ID?
+  @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+  
+  var body: some View {
+    switch horizontalSizeClass {
+    case .regular:
+      SidebarContentView(selectedMenuItemId: $selectedMenuItemId)
+//      Text("regular")
+//    case .compact:
+//      Text("compact")
+    default:
+      TabContentView(selectedMenuItemId: $selectedMenuItemId)
     }
+  }
 }
 
 struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        MainView()
-    }
+  static var previews: some View {
+    MainView()
+  }
 }
