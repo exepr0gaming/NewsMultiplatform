@@ -9,15 +9,16 @@ import SwiftUI
 
 struct SearchTabView: View {
   
+  @Environment(\.horizontalSizeClass) private var horizontalSizeClass
   @StateObject var searchVM = ArticleSearchViewModel.shared
   
     var body: some View {
-      NavigationView {
+      //NavigationView {
         ArticleListView(articles: articles)
           .overlay(overlayView)
           .navigationTitle("Search")
-      }
-      .searchable(text: $searchVM.searchQuery) {
+     // }
+          .searchable(text: $searchVM.searchQuery, placement: horizontalSizeClass == .regular ? .navigationBarDrawer : .automatic) {
         if searchVM.searchQuery.isEmpty {
           suggestionsView // добавляет список тегов к поиску при нажатии
         } else {

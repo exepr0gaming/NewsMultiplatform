@@ -8,12 +8,12 @@
 import Foundation
 
 protocol DataStore: Actor {
-    
-    associatedtype D
-    
-    func save(_ current: D)
-    func load() -> D?
-    
+  
+  associatedtype D
+  
+  func save(_ current: D)
+  func load() -> D?
+  
 }
 
 actor PlistDataStore<T: Codable>: DataStore where T: Equatable {

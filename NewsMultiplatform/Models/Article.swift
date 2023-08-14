@@ -31,7 +31,7 @@ struct Article: Codable, Equatable, Identifiable {
   let urlToImage: String?
   let publishedAt: Date
   let content: String?
-
+  
   var getSourceNameAndDate: String { "\(source.name) · \(relativeDateTimeFormatter.localizedString(for: publishedAt, relativeTo: Date()))" }
   var authorText: String { author ?? "" }
   var getDescription: String { description ?? "" }

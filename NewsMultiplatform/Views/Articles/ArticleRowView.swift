@@ -9,10 +9,21 @@ import SwiftUI
 
 struct ArticleRowView: View {
   
+  @Environment(\.horizontalSizeClass) private var horizontalSizeClass
   @EnvironmentObject var articleBookmarkVM: ArticleBookmarkViewModel
   let article: Article
   
   var body: some View {
+    switch horizontalSizeClass {
+    case .regular:
+      GeometryReader { contentView(proxy: $0) }
+    default:
+      contentView()
+    }
+  }
+  
+  @ViewBuilder
+  private func contentView(proxy: GeometryProxy? = nil) -> some View {
     VStack(alignment: .leading, spacing: 16) {
       AsyncImage(url: article.getImageUrl) { phase in
         switch phase {
@@ -22,6 +33,7 @@ struct ArticleRowView: View {
           image
             .resizable()
             .scaledToFill()
+          
         case .failure(_):
           ZStack {
             Image(systemName: "photo")
@@ -36,8 +48,7 @@ struct ArticleRowView: View {
           Text("Error load image")
         }
       }
-      .frame(width: UIScreen.main.bounds.width)//, height: 300)
-      .frame(minHeight: 200, maxHeight: 300)
+      .asyncImageFrame(horizontalSizeClass: horizontalSizeClass ?? .compact)
       .clipped()
       
       
@@ -48,7 +59,11 @@ struct ArticleRowView: View {
         
         Text(article.getDescription)
           .font(.subheadline)
-          .lineLimit(3)
+          .lineLimit(2)
+        
+        if horizontalSizeClass == .regular {
+          Spacer()
+        }
         
         HStack {
           Text(article.getSourceNameAndDate)
@@ -66,13 +81,11 @@ struct ArticleRowView: View {
           .buttonStyle(.bordered)
           
           Button {
-            presentShareSheet(url: article.articleURL)
+            presentShareSheet(url: article.articleURL, proxy: proxy)
           } label: {
             Image(systemName: "square.and.arrow.up")
           }
           .buttonStyle(.bordered)
-
-          
         }
       }
       .padding([.horizontal, .bottom])
@@ -84,6 +97,18 @@ struct ArticleRowView: View {
       articleBookmarkVM.removeBookmark(for: article)
     } else {
       articleBookmarkVM.addBookmark(for: article)
+    }
+  }
+}
+
+fileprivate extension View {
+  @ViewBuilder
+  func asyncImageFrame(horizontalSizeClass: UserInterfaceSizeClass) -> some View {
+    switch horizontalSizeClass {
+    case .regular:
+      frame(height: 180)
+    default:
+      frame(minHeight: 200, maxHeight: 300)
     }
   }
 }

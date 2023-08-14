@@ -20,9 +20,16 @@ struct FetchTaskToken: Equatable {
 
 @MainActor
 class ArticleNewsViewModel: ObservableObject {
-    
+  
+  @AppStorage("selectedMenuItemId") private var selectedMenuItemId: MenuItem.ID?
     @Published var phase: DataFetchPhase<[Article]> = .empty
-    @Published var fetchTaskToken: FetchTaskToken
+  @Published var fetchTaskToken: FetchTaskToken {
+    didSet {
+      if oldValue.category != fetchTaskToken.category {
+        selectedMenuItemId = MenuItem.category(fetchTaskToken.category).id
+      }
+    }
+  }
     private let newsAPI = NewsAPI.shared
     
   // интересно, init articles, selectedCategory without @Published

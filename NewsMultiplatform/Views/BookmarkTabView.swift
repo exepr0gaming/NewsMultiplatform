@@ -14,12 +14,11 @@ struct BookmarkTabView: View {
   var body: some View {
    // let articles = self.articles // TODO: Bad decision , да и без него работает как бы(
     
-    NavigationView {
+   // NavigationView {
       ArticleListView(articles: articles) //articleBookmarkVM.bookmarks)
-        .overlay { overlayView(isEmpty: articles.isEmpty) //articleBookmarkVM.bookmarks.isEmpty) }
-            .navigationTitle("Saved Articles")
-        }
-    }
+        .overlay { overlayView(isEmpty: articles.isEmpty) }
+        .navigationTitle("Saved Articles")
+   // }
     .searchable(text: $searchText)
   }
   

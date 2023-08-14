@@ -9,17 +9,23 @@ import SwiftUI
 
 struct NewsTabView: View {
   
+  @Environment(\.horizontalSizeClass) private var horizontalSizeClass
   @StateObject var articleNewsVM = ArticleNewsViewModel()
   
+  init(articles: [Article]? = nil, category: Category = .general) {
+    //self.articleNewsVM = ArticleNewsViewModel(articles: articles, selectedCategory: category)
+    self._articleNewsVM = StateObject(wrappedValue: ArticleNewsViewModel(articles: articles, selectedCategory: category))
+  }
+  
   var body: some View {
-    NavigationView {
+    //NavigationView {
       ArticleListView(articles: articles)
         .overlay(overlayView)
         .task(id: articleNewsVM.fetchTaskToken, loadTask)
         .refreshable { refreshTask() }
         .navigationTitle(articleNewsVM.fetchTaskToken.category.text)
-        .navigationBarItems(trailing: menu)
-    }
+        .navigationBarItems(trailing: navigationBarItem)
+   // }
   }
   
   @ViewBuilder
@@ -56,6 +62,19 @@ struct NewsTabView: View {
     }
   }
   
+  @ViewBuilder
+  private var navigationBarItem: some View {
+    switch horizontalSizeClass {
+    case .regular:
+      Button(action: refreshTask) {
+        Image(systemName: "arrow.clockwise")
+          .imageScale(.large)
+      }
+    default:
+      menu
+    }
+  }
+  
   private var menu: some View {
     Menu {
       Picker("Category", selection: $articleNewsVM.fetchTaskToken.category) {
@@ -73,7 +92,8 @@ struct NewsTabView: View {
 struct NewsTabView_Previews: PreviewProvider {
   @StateObject static var articleBookmarkVM = ArticleBookmarkViewModel.shared//.shared
   static var previews: some View {
-    NewsTabView(articleNewsVM: ArticleNewsViewModel(articles: Article.previewData))
+    //NewsTabView(articleNewsVM: ArticleNewsViewModel(articles: Article.previewData))
+    NewsTabView(articles: Article.previewData)
       .environmentObject(articleBookmarkVM)
   }
 }
