@@ -12,6 +12,7 @@ class ArticleSearchViewModel: ObservableObject {
   @Published var phase: DataFetchPhase<[Article]> = .empty
   @Published var searchQuery = ""
   @Published var history = [String]()
+  @Published var currentSearch: String?
   private let newsAPI = NewsAPI.shared
   
   private let historyDataStore = PlistDataStore<[String]>(filename: "histories")
@@ -52,6 +53,7 @@ class ArticleSearchViewModel: ObservableObject {
     
     if searchQuery.isEmpty { return }
     
+    currentSearch = searchQuery // for macOS
     do {
       let articles = try await newsAPI.search(for: searchQuery)
       if Task.isCancelled { return }

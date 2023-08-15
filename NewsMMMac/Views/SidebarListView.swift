@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SidebarListView: View {
   @Binding var selection: MenuItem.ID?
+  @EnvironmentObject private var searchVM: ArticleSearchViewModel
+  @Environment(\.dismissSearch) private var dismissSearch
   
     var body: some View {
       ZStack {
@@ -46,13 +48,18 @@ struct SidebarListView: View {
   private func viewForMenuItem(_ item: MenuItem) -> some View {
     switch item {
     case .saved:
-      Text("Saved")
+      BookmarkTabView()
       
     case .search:
-      Text("Search")
+      SearchTabView()
+        .onDisappear {
+          searchVM.searchQuery = ""
+          dismissSearch()
+        }
       
     case .category(let category):
-      Text("Category: \(category.text)")
+      NewsTabView(category: category)
+        .id(category.id)
     }
   }
   

@@ -9,17 +9,23 @@ import SwiftUI
 
 struct ArticleRowView: View {
   
+#if os(iOS)
   @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+#endif
   @EnvironmentObject var articleBookmarkVM: ArticleBookmarkViewModel
   let article: Article
   
   var body: some View {
+#if os(iOS)
     switch horizontalSizeClass {
     case .regular:
       GeometryReader { contentView(proxy: $0) }
     default:
       contentView()
     }
+#elseif os(macOS)
+    GeometryReader { contentView(proxy: $0) }
+#endif
   }
   
   @ViewBuilder
@@ -48,22 +54,47 @@ struct ArticleRowView: View {
           Text("Error load image")
         }
       }
+#if os(iOS)
       .asyncImageFrame(horizontalSizeClass: horizontalSizeClass ?? .compact)
+#elseif os(macOS)
+      .frame(height: 180)
+#endif
       .clipped()
       
       
-      VStack(alignment: .leading, spacing: 8) {
+      VStack(alignment: .leading, spacing: 0) {
         Text(article.title)
+          .padding(.bottom, 8)
+#if os(iOS)
           .font(.headline)
+          .lineLimit(2)
+#elseif os(macOS)
+          .font(.title2.bold())
+          .foregroundStyle(.primary)
           .lineLimit(3)
+#endif
         
         Text(article.getDescription)
+#if os(iOS)
           .font(.subheadline)
-          .lineLimit(2)
+          .lineLimit(3)
+#elseif os(macOS)
+          .font(.body)
+          .foregroundStyle(.secondary)
+          .lineSpacing(2)
+          .lineLimit(3)
+#endif
+         
         
+#if os(iOS)
         if horizontalSizeClass == .regular {
           Spacer()
         }
+#elseif os(macOS)
+        Spacer()
+        Divider()
+          .padding(.bottom, 12)
+#endif
         
         HStack {
           Text(article.getSourceNameAndDate)
@@ -73,34 +104,73 @@ struct ArticleRowView: View {
           Spacer()
           
           Button {
-            toogleBookmark(for: article)
+            toggleBookmark(for: article)
           } label: {
             //Image(systemName: "bookmark")
             Image(systemName:articleBookmarkVM.isBookmarked(for: article) ? "bookmark.fill" : "bookmark")
           }
-          .buttonStyle(.bordered)
           
-          Button {
-            presentShareSheet(url: article.articleURL, proxy: proxy)
-          } label: {
-            Image(systemName: "square.and.arrow.up")
-          }
-          .buttonStyle(.bordered)
+          #if os(iOS)
+          shareButton(proxy: proxy)
+          #elseif os(macOS)
+          GeometryReader { shareButton(proxy: $0) }
+            .frame(width: 20, height: 20)
+          #endif
+          
         }
+#if os(iOS)
+        .buttonStyle(.bordered)
+#elseif os(macOS)
+        .buttonStyle(.borderless)
+        .imageScale(.large)
+#endif
       }
       .padding([.horizontal, .bottom])
     }
+    #if os(macOS)
+    .contextMenu(ContextMenu { contextMenuItems })
+    #endif
   }
   
-  private func toogleBookmark(for article: Article) {
+  // чтобы привязаться ни к ячейке, а к кнопке
+  private func shareButton(proxy: GeometryProxy?) -> some View {
+    Button {
+      presentShareSheet(url: article.articleURL, proxy: proxy)
+    } label: {
+      Image(systemName: "square.and.arrow.up")
+    }
+  }
+  
+  private func toggleBookmark(for article: Article) {
     if articleBookmarkVM.isBookmarked(for: article) {
       articleBookmarkVM.removeBookmark(for: article)
     } else {
       articleBookmarkVM.addBookmark(for: article)
     }
   }
+  
+#if os(macOS)
+  @ViewBuilder
+  private var contextMenuItems: some View {
+    Button("Open in Browser") {
+      NSWorkspace.shared.open(article.articleURL)
+    }
+    
+    Button("Copy URL") {
+      let url = article.articleURL as NSPasteboardWriting
+      let pasterboard = NSPasteboard.general
+      pasterboard.clearContents()
+      pasterboard.writeObjects([url])
+    }
+    
+    Button(articleBookmarkVM.isBookmarked(for: article) ? "Remove Bookmark" : "Bookmark") {
+      toggleBookmark(for: article)
+    }
+  }
+  #endif
 }
 
+#if os(iOS)
 fileprivate extension View {
   @ViewBuilder
   func asyncImageFrame(horizontalSizeClass: UserInterfaceSizeClass) -> some View {
@@ -112,6 +182,7 @@ fileprivate extension View {
     }
   }
 }
+#endif
 
 struct ArticleRowView_Previews: PreviewProvider {
   @StateObject static var articleBookmarkVM = ArticleBookmarkViewModel.shared

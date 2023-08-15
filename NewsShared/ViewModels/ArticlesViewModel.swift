@@ -18,6 +18,8 @@ struct FetchTaskToken: Equatable {
     var token: Date
 }
 
+fileprivate let dateFormatter = DateFormatter()
+
 @MainActor
 class ArticleNewsViewModel: ObservableObject {
   
@@ -31,6 +33,11 @@ class ArticleNewsViewModel: ObservableObject {
     }
   }
     private let newsAPI = NewsAPI.shared
+  
+  var lastRefreshedDateText: String {
+    dateFormatter.timeStyle = .short
+    return "Last refreshed at: \(dateFormatter.string(from: fetchTaskToken.token))"
+  }
     
   // интересно, init articles, selectedCategory without @Published
     init(articles: [Article]? = nil, selectedCategory: Category = .general) {

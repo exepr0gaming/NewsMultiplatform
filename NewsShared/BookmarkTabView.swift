@@ -19,6 +19,9 @@ struct BookmarkTabView: View {
         .overlay { overlayView(isEmpty: articles.isEmpty) }
         .navigationTitle("Saved Articles")
    // }
+    #if os(macOS)
+        .navigationSubtitle("\(articles.count) bookmark(s)")
+    #endif
     .searchable(text: $searchText)
   }
   

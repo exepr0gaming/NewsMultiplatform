@@ -43,4 +43,9 @@ class ArticleBookmarkViewModel: ObservableObject {
     bookmarkUpdated()
   }
   
+  func removeAllBookmarks() {
+    bookmarks.removeAll()
+    bookmarkUpdated()
+  }
+  
 }

@@ -9,15 +9,18 @@ import SwiftUI
 
 struct SearchTabView: View {
   
+  #if os(iOS)
   @Environment(\.horizontalSizeClass) private var horizontalSizeClass
   @StateObject var searchVM = ArticleSearchViewModel.shared
+  #elseif os(macOS)
+  @EnvironmentObject var searchVM: ArticleSearchViewModel
+  #endif
   
     var body: some View {
-      //NavigationView {
         ArticleListView(articles: articles)
           .overlay(overlayView)
+      #if os(iOS)
           .navigationTitle("Search")
-     // }
           .searchable(text: $searchVM.searchQuery, placement: horizontalSizeClass == .regular ? .navigationBarDrawer : .automatic) {
         if searchVM.searchQuery.isEmpty {
           suggestionsView // добавляет список тегов к поиску при нажатии
@@ -31,6 +34,9 @@ struct SearchTabView: View {
         } // сбрасывает страницу, если строка поиска пуста (такое себе)
       })
       .onSubmit(of: .search, search) // срабатывает при нажатии search на клавиатуре, а не при вводе
+      #elseif os(macOS)
+      .navigationTitle(searchVM.currentSearch == nil ? "Search" : "Search results for \(searchVM.currentSearch!)")
+      #endif
     }
   
   private var articles: [Article] {
@@ -45,6 +51,7 @@ struct SearchTabView: View {
   private var overlayView: some View {
     switch searchVM.phase {
     case .empty:
+      #if os(iOS)
       if !searchVM.searchQuery.isEmpty {
         ProgressView()
       } else if !searchVM.history.isEmpty {
@@ -54,6 +61,9 @@ struct SearchTabView: View {
       } else {
         EmptyPlaceholderView(text: "Type your query to search from News API", image: Image(systemName: "magnifyingglass"))
       }
+      #elseif os(macOS)
+      ProgressView()
+      #endif
     case .success(let articles) where articles.isEmpty:
       EmptyPlaceholderView(text: "No search results found", image: Image(systemName: "magnifyingglass"))
     case .failure(let error):
