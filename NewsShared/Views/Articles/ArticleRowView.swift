@@ -25,41 +25,15 @@ struct ArticleRowView: View {
     }
 #elseif os(macOS)
     GeometryReader { contentView(proxy: $0) }
+#elseif os(watchOS)
+    watchContentView
 #endif
   }
   
   @ViewBuilder
   private func contentView(proxy: GeometryProxy? = nil) -> some View {
     VStack(alignment: .leading, spacing: 16) {
-      AsyncImage(url: article.getImageUrl) { phase in
-        switch phase {
-        case .empty:
-          ProgressView()
-        case .success(let image):
-          image
-            .resizable()
-            .scaledToFill()
-          
-        case .failure(_):
-          ZStack {
-            Image(systemName: "photo")
-              .resizable()
-              .scaledToFit()
-              .padding()
-              .opacity(0.05)
-            
-            Text("Error Loading image")
-          }
-        @unknown default:
-          Text("Error load image")
-        }
-      }
-#if os(iOS)
-      .asyncImageFrame(horizontalSizeClass: horizontalSizeClass ?? .compact)
-#elseif os(macOS)
-      .frame(height: 180)
-#endif
-      .clipped()
+     asyncImage
       
       
       VStack(alignment: .leading, spacing: 0) {
@@ -168,6 +142,90 @@ struct ArticleRowView: View {
     }
   }
   #endif
+  
+#if os(watchOS)
+  private var watchContentView: some View {
+    VStack(alignment: .leading) {
+      HStack {
+        asyncImage
+        Text(article.title)
+          .lineLimit(3)
+          .font(.headline)
+          .foregroundStyle(.primary)
+      }
+      
+      Text(article.getDescription)
+        .lineLimit(2)
+        .font(.caption2)
+        .foregroundStyle(.secondary)
+      
+      HStack {
+        if articleBookmarkVM.isBookmarked(for: article) {
+          Image(systemName: "bookmark")
+        }
+        
+        Text(article.getSourceNameAndDate)
+          .font(.footnote)
+          .lineLimit(2)
+          .foregroundStyle(.tertiary) // ??))
+      }
+    }
+    .padding(.vertical)
+    .swipeActions {
+      if articleBookmarkVM.isBookmarked(for: article) {
+        Button(role: .destructive, action: {
+          articleBookmarkVM.removeBookmark(for: article)
+        }, label: {
+          Label("Remove Bookmark", systemImage: "bookmark")
+        })
+      } else {
+        Button(action: {
+          articleBookmarkVM.addBookmark(for: article)
+        }, label: {
+          Label("Bookmark", systemImage: "bookmark")
+        })
+      }
+    }
+  }
+  #endif
+  
+  private var asyncImage: some View {
+    AsyncImage(url: article.getImageUrl) { phase in
+      switch phase {
+      case .empty:
+        ProgressView()
+      case .success(let image):
+        image
+          .resizable()
+          .scaledToFill()
+        
+      case .failure(_):
+        ZStack {
+          Image(systemName: "photo")
+            .resizable()
+            .scaledToFit()
+            .padding()
+            .opacity(0.05)
+          
+          Text("Error Loading image")
+        }
+      @unknown default:
+        Text("Error load image")
+      }
+    }
+#if os(iOS)
+    .asyncImageFrame(horizontalSizeClass: horizontalSizeClass ?? .compact)
+#elseif os(macOS)
+    .frame(height: 180)
+#elseif os(watchOS)
+    .frame(maxWidth: 40, maxHeight: 70)
+#endif
+    .background(Color.gray.opacity(0.6))
+    .clipped()
+#if os(watchOS)
+    .cornerRadius(4)
+#endif
+  }
 }
 
 #if os(iOS)

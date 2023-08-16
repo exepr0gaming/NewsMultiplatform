@@ -27,17 +27,26 @@ struct ArticleListView: View {
 #endif
   }
   
-#if os(iOS)
+#if os(iOS) || os(watchOS)
   private var listView: some View {
     List {
       ForEach(articles) { article in
+#if os(iOS)
         ArticleRowView(article: article)
           .onTapGesture {
             selectedArticle = article
           }
-        // .padding(.bottom)
+#elseif os(watchOS)
+        NavigationLink {
+          Text(article.getDescription)
+        } label: {
+          ArticleRowView(article: article)
+        }
+#endif
       }
+#if os(iOS)
       .listRowSeparator(.hidden)
+#endif
     }
     .listStyle(.plain)
   }
@@ -99,6 +108,8 @@ struct ArticleListView: View {
     }
 #elseif os(macOS)
     gridView
+#elseif os(watchOS)
+    listView
 #endif
   }
 }

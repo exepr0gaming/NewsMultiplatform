@@ -70,7 +70,6 @@ struct NewsTabView: View {
     await articleNewsVM.loadArticles()
   }
   
-  
   private func refreshTask() {
     DispatchQueue.main.async {
       articleNewsVM.fetchTaskToken = FetchTaskToken(category: articleNewsVM.fetchTaskToken.category, token: Date())
@@ -90,7 +89,6 @@ struct NewsTabView: View {
       menu
     }
   }
-#endif
   
   private var menu: some View {
     Menu {
@@ -104,6 +102,7 @@ struct NewsTabView: View {
         .imageScale(.large)
     }
   }
+#endif
 }
 
 struct NewsTabView_Previews: PreviewProvider {

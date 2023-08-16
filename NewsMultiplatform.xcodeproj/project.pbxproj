@@ -41,6 +41,20 @@
 		844D22802A8BBB3E00638249 /* NewsCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844D227F2A8BBB3E00638249 /* NewsCommands.swift */; };
 		844D22822A8BBDB500638249 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844D22812A8BBDB500638249 /* SettingsView.swift */; };
 		844D22832A8BC36900638249 /* SearchTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844D22412A88045100638249 /* SearchTabView.swift */; };
+		844D228C2A8C168000638249 /* NewsWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 844D228B2A8C168000638249 /* NewsWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		844D22912A8C168000638249 /* NewsWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844D22902A8C168000638249 /* NewsWatchApp.swift */; };
+		844D22932A8C168000638249 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844D22922A8C168000638249 /* ContentView.swift */; };
+		844D22952A8C168200638249 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 844D22942A8C168200638249 /* Assets.xcassets */; };
+		844D22982A8C168200638249 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 844D22972A8C168200638249 /* Preview Assets.xcassets */; };
+		844D22A02A8C170E00638249 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844D223D2A86E2EE00638249 /* DataStore.swift */; };
+		844D22A12A8C170E00638249 /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844D224B2A89C83100638249 /* MenuItem.swift */; };
+		844D22A22A8C170E00638249 /* news.json in Resources */ = {isa = PBXBuildFile; fileRef = 846ECA052A83A495000DF1CE /* news.json */; };
+		844D22A32A8C170E00638249 /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846ECA072A83A4B9000DF1CE /* Article.swift */; };
+		844D22A42A8C170E00638249 /* NewsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846ECA1A2A8408CD000DF1CE /* NewsAPI.swift */; };
+		844D22A52A8C170E00638249 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846ECA172A840857000DF1CE /* Category.swift */; };
+		844D22A62A8C170E00638249 /* ArticleSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 844D223F2A8802F400638249 /* ArticleSearchViewModel.swift */; };
+		844D22A72A8C170E00638249 /* ArticlesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846ECA1D2A840DAE000DF1CE /* ArticlesViewModel.swift */; };
+		844D22A82A8C170E00638249 /* ArticleBookmarkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846ECA252A85370C000DF1CE /* ArticleBookmarkViewModel.swift */; };
 		846EC9F82A83A337000DF1CE /* NewsMultiplatformApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846EC9F72A83A337000DF1CE /* NewsMultiplatformApp.swift */; };
 		846EC9FA2A83A337000DF1CE /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846EC9F92A83A337000DF1CE /* MainView.swift */; };
 		846EC9FC2A83A339000DF1CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 846EC9FB2A83A339000DF1CE /* Assets.xcassets */; };
@@ -58,7 +72,37 @@
 		846ECA222A84425F000DF1CE /* EmptyPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846ECA212A84425F000DF1CE /* EmptyPlaceholderView.swift */; };
 		846ECA242A844367000DF1CE /* RetryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846ECA232A844367000DF1CE /* RetryView.swift */; };
 		846ECA262A85370C000DF1CE /* ArticleBookmarkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846ECA252A85370C000DF1CE /* ArticleBookmarkViewModel.swift */; };
+		84F0D2C42A8D4FBA008276B8 /* ArticleRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846ECA0C2A83C867000DF1CE /* ArticleRowView.swift */; };
+		84F0D2C52A8D4FBA008276B8 /* EmptyPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846ECA212A84425F000DF1CE /* EmptyPlaceholderView.swift */; };
+		84F0D2C62A8D4FBA008276B8 /* ArticleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846ECA102A83CE1B000DF1CE /* ArticleListView.swift */; };
+		84F0D2C72A8D4FBA008276B8 /* RetryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846ECA232A844367000DF1CE /* RetryView.swift */; };
+		84F0D2C82A8D4FBA008276B8 /* NewsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846ECA1F2A843D43000DF1CE /* NewsTabView.swift */; };
+		84F0D2C92A8D5062008276B8 /* View + Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846ECA152A8406E9000DF1CE /* View + Ext.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		844D228D2A8C168000638249 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 846EC9EC2A83A337000DF1CE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 844D228A2A8C168000638249;
+			remoteInfo = "NewsWatch Watch App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		844D229C2A8C168200638249 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				844D228C2A8C168000638249 /* NewsWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		844D223B2A86E1FC00638249 /* BookmarkTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkTabView.swift; sourceTree = "<group>"; };
@@ -81,6 +125,12 @@
 		844D227D2A8BB9AE00638249 /* FocusedValues+RefreshAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FocusedValues+RefreshAction.swift"; sourceTree = "<group>"; };
 		844D227F2A8BBB3E00638249 /* NewsCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCommands.swift; sourceTree = "<group>"; };
 		844D22812A8BBDB500638249 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		844D22862A8C168000638249 /* NewsWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		844D228B2A8C168000638249 /* NewsWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "NewsWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		844D22902A8C168000638249 /* NewsWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsWatchApp.swift; sourceTree = "<group>"; };
+		844D22922A8C168000638249 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		844D22942A8C168200638249 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		844D22972A8C168200638249 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		846EC9F42A83A337000DF1CE /* NewsMultiplatform.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsMultiplatform.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		846EC9F72A83A337000DF1CE /* NewsMultiplatformApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsMultiplatformApp.swift; sourceTree = "<group>"; };
 		846EC9F92A83A337000DF1CE /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -104,6 +154,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		844D22502A8A821400638249 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		844D22882A8C168000638249 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -225,12 +282,32 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		844D228F2A8C168000638249 /* NewsWatch Watch App */ = {
+			isa = PBXGroup;
+			children = (
+				844D22902A8C168000638249 /* NewsWatchApp.swift */,
+				844D22922A8C168000638249 /* ContentView.swift */,
+				844D22942A8C168200638249 /* Assets.xcassets */,
+				844D22962A8C168200638249 /* Preview Content */,
+			);
+			path = "NewsWatch Watch App";
+			sourceTree = "<group>";
+		};
+		844D22962A8C168200638249 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				844D22972A8C168200638249 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		846EC9EB2A83A337000DF1CE = {
 			isa = PBXGroup;
 			children = (
 				844D22632A8A830200638249 /* NewsShared */,
 				846EC9F62A83A337000DF1CE /* NewsMultiplatform */,
 				844D22542A8A821400638249 /* NewsMMMac */,
+				844D228F2A8C168000638249 /* NewsWatch Watch App */,
 				846EC9F52A83A337000DF1CE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -240,6 +317,8 @@
 			children = (
 				846EC9F42A83A337000DF1CE /* NewsMultiplatform.app */,
 				844D22532A8A821400638249 /* NewsMMMac.app */,
+				844D22862A8C168000638249 /* NewsWatch.app */,
+				844D228B2A8C168000638249 /* NewsWatch Watch App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -313,6 +392,40 @@
 			productReference = 844D22532A8A821400638249 /* NewsMMMac.app */;
 			productType = "com.apple.product-type.application";
 		};
+		844D22852A8C168000638249 /* NewsWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 844D229D2A8C168200638249 /* Build configuration list for PBXNativeTarget "NewsWatch" */;
+			buildPhases = (
+				844D22842A8C168000638249 /* Resources */,
+				844D229C2A8C168200638249 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				844D228E2A8C168000638249 /* PBXTargetDependency */,
+			);
+			name = NewsWatch;
+			productName = NewsWatch;
+			productReference = 844D22862A8C168000638249 /* NewsWatch.app */;
+			productType = "com.apple.product-type.application.watchapp2-container";
+		};
+		844D228A2A8C168000638249 /* NewsWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 844D22992A8C168200638249 /* Build configuration list for PBXNativeTarget "NewsWatch Watch App" */;
+			buildPhases = (
+				844D22872A8C168000638249 /* Sources */,
+				844D22882A8C168000638249 /* Frameworks */,
+				844D22892A8C168000638249 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "NewsWatch Watch App";
+			productName = "NewsWatch Watch App";
+			productReference = 844D228B2A8C168000638249 /* NewsWatch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
 		846EC9F32A83A337000DF1CE /* NewsMultiplatform */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 846ECA022A83A339000DF1CE /* Build configuration list for PBXNativeTarget "NewsMultiplatform" */;
@@ -343,6 +456,12 @@
 					844D22522A8A821400638249 = {
 						CreatedOnToolsVersion = 14.3.1;
 					};
+					844D22852A8C168000638249 = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
+					844D228A2A8C168000638249 = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
 					846EC9F32A83A337000DF1CE = {
 						CreatedOnToolsVersion = 14.3.1;
 					};
@@ -363,6 +482,8 @@
 			targets = (
 				846EC9F32A83A337000DF1CE /* NewsMultiplatform */,
 				844D22522A8A821400638249 /* NewsMMMac */,
+				844D22852A8C168000638249 /* NewsWatch */,
+				844D228A2A8C168000638249 /* NewsWatch Watch App */,
 			);
 		};
 /* End PBXProject section */
@@ -375,6 +496,23 @@
 				844D22692A8A83C200638249 /* news.json in Resources */,
 				844D225D2A8A821600638249 /* Preview Assets.xcassets in Resources */,
 				844D225A2A8A821600638249 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		844D22842A8C168000638249 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		844D22892A8C168000638249 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				844D22A22A8C170E00638249 /* news.json in Resources */,
+				844D22982A8C168200638249 /* Preview Assets.xcassets in Resources */,
+				844D22952A8C168200638249 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,6 +558,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		844D22872A8C168000638249 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				844D22932A8C168000638249 /* ContentView.swift in Sources */,
+				844D22A12A8C170E00638249 /* MenuItem.swift in Sources */,
+				84F0D2C92A8D5062008276B8 /* View + Ext.swift in Sources */,
+				84F0D2C52A8D4FBA008276B8 /* EmptyPlaceholderView.swift in Sources */,
+				84F0D2C82A8D4FBA008276B8 /* NewsTabView.swift in Sources */,
+				84F0D2C72A8D4FBA008276B8 /* RetryView.swift in Sources */,
+				844D22A02A8C170E00638249 /* DataStore.swift in Sources */,
+				844D22A82A8C170E00638249 /* ArticleBookmarkViewModel.swift in Sources */,
+				84F0D2C62A8D4FBA008276B8 /* ArticleListView.swift in Sources */,
+				844D22912A8C168000638249 /* NewsWatchApp.swift in Sources */,
+				844D22A32A8C170E00638249 /* Article.swift in Sources */,
+				84F0D2C42A8D4FBA008276B8 /* ArticleRowView.swift in Sources */,
+				844D22A72A8C170E00638249 /* ArticlesViewModel.swift in Sources */,
+				844D22A62A8C170E00638249 /* ArticleSearchViewModel.swift in Sources */,
+				844D22A42A8C170E00638249 /* NewsAPI.swift in Sources */,
+				844D22A52A8C170E00638249 /* Category.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		846EC9F02A83A337000DF1CE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -451,6 +612,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		844D228E2A8C168000638249 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 844D228A2A8C168000638249 /* NewsWatch Watch App */;
+			targetProxy = 844D228D2A8C168000638249 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		844D22602A8A821600638249 /* Debug */ = {
@@ -509,6 +678,96 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		844D229A2A8C168200638249 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"NewsWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 45BPS947ZY;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = NewsWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iosdream.NewsWatch.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.4;
+			};
+			name = Debug;
+		};
+		844D229B2A8C168200638249 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"NewsWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 45BPS947ZY;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = NewsWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iosdream.NewsWatch.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 9.4;
+			};
+			name = Release;
+		};
+		844D229E2A8C168200638249 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 45BPS947ZY;
+				INFOPLIST_KEY_CFBundleDisplayName = NewsWatch;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iosdream.NewsWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		844D229F2A8C168200638249 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 45BPS947ZY;
+				INFOPLIST_KEY_CFBundleDisplayName = NewsWatch;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.iosdream.NewsWatch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -697,6 +956,24 @@
 			buildConfigurations = (
 				844D22602A8A821600638249 /* Debug */,
 				844D22612A8A821600638249 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		844D22992A8C168200638249 /* Build configuration list for PBXNativeTarget "NewsWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				844D229A2A8C168200638249 /* Debug */,
+				844D229B2A8C168200638249 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		844D229D2A8C168200638249 /* Build configuration list for PBXNativeTarget "NewsWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				844D229E2A8C168200638249 /* Debug */,
+				844D229F2A8C168200638249 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
