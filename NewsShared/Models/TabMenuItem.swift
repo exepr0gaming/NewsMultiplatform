@@ -49,6 +49,5 @@ enum TabMenuItem: String, CaseIterable {
 }
 
 extension TabMenuItem: Identifiable {
-    
     var id: Self { self }
 }

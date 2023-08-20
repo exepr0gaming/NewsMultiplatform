@@ -1,5 +1,5 @@
 //
-//  MainView.swift
+//        ContentView.swift
 //  NewsMultiplatform
 //
 //  Created by Andrew Kurdin on 09.08.2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MainView: View {
+struct ContentView: View {
   @AppStorage("selectedMenuItemId") private var selectedMenuItemId: MenuItem.ID?
   @Environment(\.horizontalSizeClass) private var horizontalSizeClass
   
@@ -26,6 +26,6 @@ struct MainView: View {
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
-    MainView()
+     ContentView()
   }
 }

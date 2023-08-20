@@ -49,6 +49,7 @@ struct Source: Codable, Equatable {
   let name: String
 }
 
+// MARK: - For Tests
 extension Article {
   static var previewData: [Article] {
     let previewDataURL = Bundle.main.url(forResource: "news", withExtension: "json")!
@@ -59,5 +60,12 @@ extension Article {
     let apiResponse = try! decoder.decode(NewsAPIResponse.self, from: data)
     
     return apiResponse.articles ?? []
+  }
+  
+  static var previewCategoryArticles: [CategoryArticles] {
+    let articles = previewData
+    return Category.allCases.map {
+      .init(category: $0, articles: articles.shuffled())
+    }
   }
 }

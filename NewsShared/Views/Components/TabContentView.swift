@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct TabContentView: View {
+  
   @Binding var selectedMenuItemId: MenuItem.ID?
   private var selection: Binding<TabMenuItem> {
     Binding {
@@ -44,11 +45,28 @@ struct TabContentView: View {
   private func viewForTabItem(_ item: TabMenuItem) -> some View {
     switch item {
     case .search:
+     
+#if os(iOS)
       BookmarkTabView()
+    .navigationSubtitle("\(articles.count) bookmark(s)")
+#else
+    SearchTabView()
+#endif
     case .saved:
+#if os(iOS)
       SearchTabView()
+#else
+      BookmarkTabView()
+#endif
+      
     case .news:
+#if os(iOS)
       NewsTabView(category: selectedCategory ?? .general)
+#else
+      NewsView()
+        .edgesIgnoringSafeArea(.horizontal)
+#endif
+     
     }
   }
 }

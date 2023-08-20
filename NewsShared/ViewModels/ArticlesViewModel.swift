@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-enum DataFetchPhase<T> {
-    case empty
-    case success(T)
-    case failure(Error)
-}
-
 struct FetchTaskToken: Equatable {
     var category: Category
     var token: Date

@@ -11,7 +11,8 @@ struct ArticleListView: View {
   
 #if os(iOS)
   @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-  @State private var selectedArticle: Article?
+  //@State private var selectedArticle: Article?
+  @State private var selectedArticleURL: URL?
 #elseif os(macOS)
   @Environment(\.colorScheme) private var colorScheme
 #endif
@@ -20,9 +21,16 @@ struct ArticleListView: View {
   var body: some View {
     rootView
 #if os(iOS)
-      .sheet(item: $selectedArticle) {
-        SafariView(url: $0.articleURL)
+      .sheet(item: $selectedArticleURL) {
+        SafariView(url: $0)
           .edgesIgnoringSafeArea(.bottom)
+          .id($0) // для обновления ссылки при отправке с часов статьи повторно
+      }
+      .onReceive(NotificationCenter.default.publisher(for: .articleSent)) { notification in
+        if let url = notification.userInfo?["url"] as? URL,
+           url != selectedArticleURL {
+          selectedArticleURL = url
+        }
       }
 #endif
   }
@@ -34,11 +42,11 @@ struct ArticleListView: View {
 #if os(iOS)
         ArticleRowView(article: article)
           .onTapGesture {
-            selectedArticle = article
+            selectedArticleURL = article.articleURL
           }
 #elseif os(watchOS)
         NavigationLink {
-          Text(article.getDescription)
+          ArticleDetailView(article: article)
         } label: {
           ArticleRowView(article: article)
         }
@@ -55,8 +63,18 @@ struct ArticleListView: View {
   // MARK: - Список статей
   private var gridView: some View {
     ScrollView {
-      LazyVGrid(columns: gridItems) {
+      LazyVGrid(columns: gridItems, spacing: gridSpacing) {
         ForEach(articles) { article in
+#if os(tvOS)
+          NavigationLink {
+            ArticleDetailView(article: article)
+          } label: {
+            ArticleItemView(article: article)
+              .frame(width: 400, height: 400)
+          }
+          .buttonStyle(.card)
+          
+#else
           ArticleRowView(article: article)
             .onTapGesture {
               handleOnTapGesture(article: article)
@@ -71,6 +89,7 @@ struct ArticleListView: View {
             .mask(RoundedRectangle(cornerRadius: 8))
             .shadow(radius: 4)
             .padding(.bottom, 4)
+#endif
         }
       }
       .padding()
@@ -81,19 +100,28 @@ struct ArticleListView: View {
   }
   
   private var gridItems: [GridItem] {
-    #if os(iOS)
+#if os(iOS)
     [GridItem(.adaptive(minimum: 300), spacing: 8)]
-    #else
+#elseif os(tvOS)
+    [GridItem(.adaptive(minimum: 400), spacing: 32)]
+#else
     [GridItem(.adaptive(minimum: 272, maximum: 272), spacing: 8)]
-    
-    #endif
+#endif
   }
   
   private func handleOnTapGesture(article: Article) {
 #if os(iOS)
-    self.selectedArticle = article
+    self.selectedArticleURL = article.articleURL
 #elseif os(macOS)
     NSWorkspace.shared.open(article.articleURL)
+#endif
+  }
+  
+  private var gridSpacing: CGFloat? {
+#if os(tvOS)
+    48
+#else
+    nil
 #endif
   }
   
@@ -106,11 +134,17 @@ struct ArticleListView: View {
     default:
       listView
     }
-#elseif os(macOS)
+#elseif os(macOS) || os(tvOS)
     gridView
 #elseif os(watchOS)
     listView
 #endif
+  }
+}
+
+extension URL: Identifiable {
+  public var id: String {
+    absoluteString
   }
 }
 

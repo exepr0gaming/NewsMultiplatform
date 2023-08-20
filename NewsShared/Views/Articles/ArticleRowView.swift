@@ -35,7 +35,6 @@ struct ArticleRowView: View {
     VStack(alignment: .leading, spacing: 16) {
      asyncImage
       
-      
       VStack(alignment: .leading, spacing: 0) {
         Text(article.title)
           .padding(.bottom, 8)
@@ -78,7 +77,7 @@ struct ArticleRowView: View {
           Spacer()
           
           Button {
-            toggleBookmark(for: article)
+            articleBookmarkVM.toggleBookmark(for: article)
           } label: {
             //Image(systemName: "bookmark")
             Image(systemName:articleBookmarkVM.isBookmarked(for: article) ? "bookmark.fill" : "bookmark")
@@ -115,13 +114,7 @@ struct ArticleRowView: View {
     }
   }
   
-  private func toggleBookmark(for article: Article) {
-    if articleBookmarkVM.isBookmarked(for: article) {
-      articleBookmarkVM.removeBookmark(for: article)
-    } else {
-      articleBookmarkVM.addBookmark(for: article)
-    }
-  }
+ 
   
 #if os(macOS)
   @ViewBuilder
@@ -138,7 +131,7 @@ struct ArticleRowView: View {
     }
     
     Button(articleBookmarkVM.isBookmarked(for: article) ? "Remove Bookmark" : "Bookmark") {
-      toggleBookmark(for: article)
+      articleBookmarkVM.toggleBookmark(for: article)
     }
   }
   #endif

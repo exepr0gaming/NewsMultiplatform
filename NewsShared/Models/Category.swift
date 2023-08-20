@@ -41,6 +41,10 @@ enum Category: String, CaseIterable {
       return "cross"
     }
   }
+  
+  var sortIndex: Int {
+    Self.allCases.firstIndex(of: self) ?? 0
+  }
 }
 
 extension Category: Identifiable {

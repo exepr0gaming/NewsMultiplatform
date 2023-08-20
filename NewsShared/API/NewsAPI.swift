@@ -21,16 +21,56 @@ struct NewsAPI {
   }()
   
   func fetch(from category: Category) async throws -> [Article] {
-   try await fetchArticles(from: generateNewsURL(from: category))
+    try await fetchArticles(from: generateNewsURL(from: category))
   }
   
   func search(for query: String) async throws -> [Article] {
     try await fetchArticles(from: generateSearchURL(from: query))
   }
   
+  private func fetchResult(from category: Category) async  -> Result<CategoryArticles, Error> {
+    do {
+      let articles = try await fetchArticles(from: generateNewsURL(from: category))
+      return .success(CategoryArticles(category: category, articles: articles))
+    } catch let error {
+      return .failure(error)
+    }
+  }
+  
+  func fetchAllCategoryArticles() async throws -> [CategoryArticles] {
+    try await withThrowingTaskGroup(of: Result<CategoryArticles, Error>.self) { group in
+      for category in Category.allCases {
+        group.addTask {
+          await fetchResult(from: category)
+        }
+      }
+      var results = [Result<CategoryArticles, Error>]()
+      for try await result in group {
+        results.append(result)
+      }
+      
+      if let first = results.first,
+         case .failure(let error) = first,
+         (error as NSError).code == 401 {
+        throw error
+      }
+      
+      var categories = [CategoryArticles]()
+      for result in results {
+        if case .success(let success) = result {
+          categories.append(success)
+        }
+      }
+      
+      categories.sort { $0.category.sortIndex < $1.category.sortIndex }
+      return categories
+    }
+    
+  }
+  
   private func fetchArticles(from url: URL) async throws -> [Article] {
     let (data, response) = try await session.data(from: url)
-   
+    
     guard let response = response as? HTTPURLResponse else {
       throw generateError(description: "Bad Response")
     }
@@ -41,11 +81,12 @@ struct NewsAPI {
       print("@@@ response.statusCode=\(response.statusCode)")
       let apiResponse = try jsonDecoder.decode(NewsAPIResponse.self, from: data)
       if apiResponse.status == "ok" { // default from NewsAPI
-       // print("\(apiResponse.articles)")
+        // print("\(apiResponse.articles)")
         return apiResponse.articles ?? []
       } else {
+        let errorCode = response.statusCode == 401 ? 401 : 1
         print("@@@ ERROR response.statusCode=\(response.statusCode)")
-        throw generateError(description: "An error occured")
+        throw generateError(code: errorCode, description: "An error occured")
       }
       
     default:
@@ -72,8 +113,8 @@ struct NewsAPI {
     + "&language=en"
     + "&category=\(category.rawValue)"
     // (url +=) or (+) ?)
-//    print("@@@url=\(url)")
-//    print("@@url2=https://newsapi.org/v2/top-headlines?apiKey=63ecf6c4a47c45e4a161941fa048bc33&language=en&category=general")
+    //    print("@@@url=\(url)")
+    //    print("@@url2=https://newsapi.org/v2/top-headlines?apiKey=63ecf6c4a47c45e4a161941fa048bc33&language=en&category=general")
     return URL(string: url)!
   }
   // country=us&category=business&apiKey=63ecf6c4a47c45e4a161941fa048bc33

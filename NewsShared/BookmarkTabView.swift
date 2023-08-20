@@ -14,15 +14,19 @@ struct BookmarkTabView: View {
   var body: some View {
    // let articles = self.articles // TODO: Bad decision , да и без него работает как бы(
     
-   // NavigationView {
       ArticleListView(articles: articles) //articleBookmarkVM.bookmarks)
         .overlay { overlayView(isEmpty: articles.isEmpty) }
+    #if !os(tvOS)
         .navigationTitle("Saved Articles")
-   // }
+    #endif
     #if os(macOS)
         .navigationSubtitle("\(articles.count) bookmark(s)")
     #endif
-    .searchable(text: $searchText)
+    #if os(watchOS)
+        .conditionalSearchable(showSearchbar: !articles.isEmpty, searchText: $searchText)
+    #else
+        .searchable(text: $searchText)
+    #endif
   }
   
   private var articles: [Article] {
@@ -41,6 +45,19 @@ struct BookmarkTabView: View {
     }
   }
 }
+
+#if os(watchOS)
+fileprivate extension View {
+  @ViewBuilder
+  func conditionalSearchable(showSearchbar: Bool, searchText: Binding<String>) -> some View {
+    if showSearchbar {
+      searchable(text: searchText)
+    } else {
+      self
+    }
+  }
+}
+#endif
 
 struct BookmarkTabView_Previews: PreviewProvider {
     static var previews: some View {

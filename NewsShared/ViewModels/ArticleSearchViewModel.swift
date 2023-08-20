@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine // for tvOS
 
 @MainActor
 class ArticleSearchViewModel: ObservableObject {
@@ -18,10 +19,34 @@ class ArticleSearchViewModel: ObservableObject {
   private let historyDataStore = PlistDataStore<[String]>(filename: "histories")
   private let historyMaxLimit = 10
   
+  #if os(tvOS)
+  private var cancellables = Set<AnyCancellable>()
+  #endif
   static let shared = ArticleSearchViewModel()
+  
+  private var trimmedSearchQuery: String {
+      searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+  }
+  
   private init() {
     load()
+#if os(tvOS)
+    observeSearchQuery()
+    #endif
   }
+  
+#if os(tvOS)
+  private func observeSearchQuery() {
+    $searchQuery
+      .debounce(for: 1, scheduler: DispatchQueue.main)
+      .sink { _ in
+        Task { [weak self] in
+          guard let self else { return }
+          await self.searchArticle() }
+      }
+      .store(in: &cancellables)
+  }
+#endif
   
   func addHistory(_ text: String) {
     if let index = history.firstIndex(where: { text.lowercased() == $0.lowercased() }) {
@@ -48,7 +73,7 @@ class ArticleSearchViewModel: ObservableObject {
   
   func searchArticle() async {
     if Task.isCancelled { return }
-    let searchQuery = self.searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+    let searchQuery = trimmedSearchQuery
     phase = .empty
     
     if searchQuery.isEmpty { return }
@@ -57,11 +82,11 @@ class ArticleSearchViewModel: ObservableObject {
     do {
       let articles = try await newsAPI.search(for: searchQuery)
       if Task.isCancelled { return }
-      if searchQuery != self.searchQuery { return }
+      if searchQuery != trimmedSearchQuery { return }
       phase = .success(articles)
     } catch {
       if Task.isCancelled { return }
-      if searchQuery != self.searchQuery { return }
+      if searchQuery != trimmedSearchQuery { return }
       phase = .failure(error)
     }
   }

@@ -48,4 +48,12 @@ class ArticleBookmarkViewModel: ObservableObject {
     bookmarkUpdated()
   }
   
+  func toggleBookmark(for article: Article) {
+    if isBookmarked(for: article) {
+      removeBookmark(for: article)
+    } else {
+      addBookmark(for: article)
+    }
+  }
+  
 }
