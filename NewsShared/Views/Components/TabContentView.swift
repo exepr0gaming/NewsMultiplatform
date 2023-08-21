@@ -46,18 +46,14 @@ struct TabContentView: View {
     switch item {
     case .search:
      
-#if os(iOS)
-      BookmarkTabView()
-    .navigationSubtitle("\(articles.count) bookmark(s)")
+#if os(iOS) || os(macOS)
+      SearchTabView()
+   // .navigationSubtitle("\(articles.count) bookmark(s)")
 #else
     SearchTabView()
 #endif
     case .saved:
-#if os(iOS)
-      SearchTabView()
-#else
-      BookmarkTabView()
-#endif
+       BookmarkTabView()
       
     case .news:
 #if os(iOS)

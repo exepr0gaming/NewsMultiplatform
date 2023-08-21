@@ -24,7 +24,9 @@ struct ArticleCarouselView: View {
           LazyHStack(spacing: 32) {
             ForEach(articles) { article in
               NavigationLink {
-               ArticleDetailView(article: article)
+                #if os(tvOS)
+                TVArticleDetailView(article: article)
+                #endif
               } label: {
                 ArticleItemView(article: article)
                   .frame(width: 420, height: 420)

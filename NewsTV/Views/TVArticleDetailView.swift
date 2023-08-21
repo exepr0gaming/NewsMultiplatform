@@ -1,5 +1,5 @@
 //
-//  ArticleDetailView.swift
+//  TVArticleDetailView.swift
 //  NewsTV
 //
 //  Created by Andrew Kurdin on 20.08.2023.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ArticleDetailView: View {
+struct TVArticleDetailView: View {
   @EnvironmentObject private var bookmarkVM: ArticleBookmarkViewModel
   let article: Article
   
@@ -84,9 +84,9 @@ struct ArticleDetailView: View {
   }
 }
 
-struct ArticleDetailView_Previews: PreviewProvider {
+struct TVArticleDetailView_Previews: PreviewProvider {
     static var previews: some View {
-      ArticleDetailView(article: Article.previewData[1])
+      TVArticleDetailView(article: Article.previewData[1])
         .environmentObject(ArticleSearchViewModel.shared)
     }
 }
